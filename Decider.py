@@ -26,4 +26,3 @@ class Decider:
             if self.case == 'D':
                 extract(self.path, self.output, 'dtxt')
 
-# decider = Decider('/Users/marianpazdzioch/filename.csv', '/Users/marianpazdzioch/', 'Q')

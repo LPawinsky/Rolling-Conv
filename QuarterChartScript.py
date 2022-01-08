@@ -1,28 +1,33 @@
 import pandas as pd
 import datetime as dt
-from saving import txt_convert
+
 
 data_to_df = []
 
-def english_check_of_month(data):
-    if sorted(data)[0] == 'Data':
-        df = pd.DataFrame(data, columns=['Data','Najwyzszy', 'Najnizszy','Otwarcie','Zamkniecie','Vol','OpenInt'])
-        df = df.rename({'Najwyzszy':'High', 'Najnizszy':'Low', 'Otwarcie':'Open', 'Zamkniecie':'Close', 'Data':'Date',}, axis='columns')
-    if sorted(data)[0] != 'Data':
-        df = pd.DataFrame(data, columns=['Date', 'High', 'Low', 'Open', 'Close', 'Vol', 'OpenInt'])
-    return df
-
-def period_create(data):
-    df = pd.DataFrame(data)
+def quarter_period_create(df):
     periods = []
     third_fridays = pd.date_range(df['Date'].iloc[len(df.index)-len(df.index)], df['Date'].iloc[len(df.index)-1], freq='WOM-2THU')
     starting_days_array = []
     ending_days_array = []
     for date in third_fridays:
         date = date + dt.timedelta(days=1)
-        starting_days_array.append(date)
+        if date.month == 3:
+            starting_days_array.append(date)
+        if date.month == 6:
+            starting_days_array.append(date)
+        if date.month == 9:
+            starting_days_array.append(date)
+        if date.month == 12:
+            starting_days_array.append(date)
     for date in third_fridays:
-        ending_days_array.append(date)
+        if date.month == 3:
+            ending_days_array.append(date)
+        if date.month == 6:
+            ending_days_array.append(date)
+        if date.month == 9:
+            ending_days_array.append(date)
+        if date.month == 12:
+            ending_days_array.append(date)
     if len(starting_days_array) == len(ending_days_array):
         for index, date in enumerate(starting_days_array):
             ending_days_array_index = len(ending_days_array)-1
@@ -33,15 +38,14 @@ def period_create(data):
                 periods.append(date)
     return periods
 
-
 def get_prices_of_period(df, startDay, endDay):
     df['Date'] = pd.to_datetime(df['Date'])
     startDay = pd.to_datetime(startDay)
     endDay = pd.to_datetime(endDay)
-    after_date = df['Date'] >= startDay
-    before_date = df['Date'] <= endDay
-    between = after_date & before_date
-    filtered_dates = df.loc[between]
+    after_start_date = df["Date"] >= startDay
+    before_end_date = df["Date"] <= endDay
+    between_two_dates = after_start_date & before_end_date
+    filtered_dates = df.loc[between_two_dates]
     highest_price = filtered_dates['High'].max()
     lowest_price = filtered_dates['Low'].min()
     opening_price = filtered_dates["Open"].iloc[len(filtered_dates.index)-len(filtered_dates.index)]
@@ -51,7 +55,15 @@ def get_prices_of_period(df, startDay, endDay):
 def write_single_period(data):
     data_to_df.append([data[1], data[4], data[2], data[3], data[5], 0, 0])
 
-def saving_months(df, periods):
+def english_check_of_quarter(data):
+    if sorted(data)[0] == 'Data':
+        df = pd.DataFrame(data, columns=['Data','Najwyzszy', 'Najnizszy','Otwarcie','Zamkniecie','Vol','OpenInt'])
+        df = df.rename({'Najwyzszy':'High', 'Najnizszy':'Low', 'Otwarcie':'Open', 'Zamkniecie':'Close', 'Data':'Date',}, axis='columns')
+    if sorted(data)[0] != 'Data':
+        df = pd.DataFrame(data, columns=['Date', 'High', 'Low', 'Open', 'Close', 'Vol', 'OpenInt'])
+    return df
+
+def quarter_saving(df, periods):
     for i in range(0, len(periods), 2):
         if i < len(periods)-1:
             s = pd.to_datetime(periods[i].to_datetime64())
@@ -78,6 +90,5 @@ def saving_months(df, periods):
                 write_single_period(data)
             finally:
                 break
-
     return data_to_df
-
+                                            

@@ -1,0 +1,30 @@
+from tkinter import *
+
+def version_window():
+    root = Tk()
+    root.title('Konwerter rolowań - przegląd uaktualnień wersji')
+    scrollbar = Scrollbar(root)
+    scrollbar.pack(side=RIGHT, fill=Y)
+    textbox = Text(root)
+    textbox.pack()
+    textbox.insert(END, " * v 0.3\n")
+    textbox.insert(END, "     - obsługa konwersji kwartalnej\n")
+    textbox.insert(END, "     - naprawione okienko wersji\n\n\n\n")
+    textbox.insert(END, " * v 0.2\n")
+    textbox.insert(END, "     - obsługa konwersji miesięcznej\n\n\n\n")
+    textbox.insert(END, " * v0.1\n")
+    textbox.insert(END, "     - obsługa konwersji dziennej open int\n")
+    textbox.insert(END, "     - obsługa ściezek plikow i sciezek folderow\n")
+    textbox.insert(END, "     - dodany skrypt decydera\n")
+    textbox.insert(END, "     - dodany skrypt ekstraktora\n")
+    textbox.insert(END, "     - dodany skrypt walidatora\n")
+    textbox.insert(END, "     - dodany skrypt stanu\n")
+    textbox.insert(END, "     - dodany skrypt normalizacji danych\n")
+    textbox.insert(END, "     - obsługa progress baru\n")
+    textbox.insert(END, "     - pliki TXT\n")
+    textbox.insert(END, "     - pliki CSV\n\n\n\n")
+
+
+    textbox.config(yscrollcommand=scrollbar.set)
+    scrollbar.config(command=textbox.yview)
+    root.mainloop()
