@@ -1,25 +1,24 @@
-import pandas as pd
-import datetime as dt
-from saving import txt_convert
+from pandas import DataFrame, date_range, to_datetime
+from datetime import timedelta
 
 data_to_df = []
 
 def english_check_of_month(data):
     if sorted(data)[0] == 'Data':
-        df = pd.DataFrame(data, columns=['Data','Najwyzszy', 'Najnizszy','Otwarcie','Zamkniecie','Vol','OpenInt'])
+        df = DataFrame(data, columns=['Data','Najwyzszy', 'Najnizszy','Otwarcie','Zamkniecie','Vol','OpenInt'])
         df = df.rename({'Najwyzszy':'High', 'Najnizszy':'Low', 'Otwarcie':'Open', 'Zamkniecie':'Close', 'Data':'Date',}, axis='columns')
     if sorted(data)[0] != 'Data':
-        df = pd.DataFrame(data, columns=['Date', 'High', 'Low', 'Open', 'Close', 'Vol', 'OpenInt'])
+        df = DataFrame(data, columns=['Date', 'High', 'Low', 'Open', 'Close', 'Vol', 'OpenInt'])
     return df
 
 def period_create(data):
-    df = pd.DataFrame(data)
+    df = DataFrame(data)
     periods = []
-    third_fridays = pd.date_range(df['Date'].iloc[len(df.index)-len(df.index)], df['Date'].iloc[len(df.index)-1], freq='WOM-2THU')
+    third_fridays = date_range(df['Date'].iloc[len(df.index)-len(df.index)], df['Date'].iloc[len(df.index)-1], freq='WOM-2THU')
     starting_days_array = []
     ending_days_array = []
     for date in third_fridays:
-        date = date + dt.timedelta(days=1)
+        date = date + timedelta(days=1)
         starting_days_array.append(date)
     for date in third_fridays:
         ending_days_array.append(date)
@@ -35,9 +34,9 @@ def period_create(data):
 
 
 def get_prices_of_period(df, startDay, endDay):
-    df['Date'] = pd.to_datetime(df['Date'])
-    startDay = pd.to_datetime(startDay)
-    endDay = pd.to_datetime(endDay)
+    df['Date'] = to_datetime(df['Date'])
+    startDay = to_datetime(startDay)
+    endDay = to_datetime(endDay)
     after_date = df['Date'] >= startDay
     before_date = df['Date'] <= endDay
     between = after_date & before_date
@@ -54,17 +53,17 @@ def write_single_period(data):
 def saving_months(df, periods):
     for i in range(0, len(periods), 2):
         if i < len(periods)-1:
-            s = pd.to_datetime(periods[i].to_datetime64())
-            e = pd.to_datetime(periods[i+1].to_datetime64())
+            s = to_datetime(periods[i].to_datetime64())
+            e = to_datetime(periods[i+1].to_datetime64())
             s = s.date()
             e = e.date()
             data = get_prices_of_period(df, s, e)
             write_single_period(data)
         if i == len(periods) - 1:
-            s = pd.to_datetime(periods[i].to_datetime64())
+            s = to_datetime(periods[i].to_datetime64())
             s = s.date()
             try:
-                e = pd.to_datetime(periods[i+1].to_datetime64())
+                e = to_datetime(periods[i+1].to_datetime64())
                 e = e.date()
                 data = get_prices_of_period(df, s, e)
                 write_single_period(data)
@@ -72,7 +71,7 @@ def saving_months(df, periods):
             except:
                 max = df['Date'].max()
                 e = max.to_datetime64()
-                e = pd.to_datetime(e)
+                e = to_datetime(e)
                 e = e.date()
                 data = get_prices_of_period(df, s, e)
                 write_single_period(data)

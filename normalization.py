@@ -1,5 +1,4 @@
-import pandas as pd
-import datetime as dt
+from pandas import read_csv, DataFrame, to_datetime
 
 def cols_rename(df):
     df = df[['<DATE>','<OPEN>','<HIGH>','<LOW>','<CLOSE>','<VOL>','<OPENINT>']]
@@ -16,7 +15,7 @@ def english_check(df):
     return df
 
 def date_transform(df):
-    df['Date'] = pd.to_datetime(df['Date'].astype(str), format='%Y-%m-%d')
+    df['Date'] = to_datetime(df['Date'].astype(str), format='%Y-%m-%d')
     df['Date'] = df['Date'].dt.date
     return df
     
@@ -24,11 +23,11 @@ def date_transform(df):
 def normalize(path, case):
     type = case[1:]
     if type == 'txt':
-        data = pd.read_csv(path)
-        df = pd.DataFrame(data, columns=['<TICKER>','<PER>','<DATE>','<OPEN>','<HIGH>','<LOW>','<CLOSE>','<VOL>','<OPENINT>'])
+        data = read_csv(path)
+        df = DataFrame(data, columns=['<TICKER>','<PER>','<DATE>','<OPEN>','<HIGH>','<LOW>','<CLOSE>','<VOL>','<OPENINT>'])
         renamed = cols_rename(df)
         return renamed
     if type == 'csv':
-        df = pd.read_csv(path)
+        df = read_csv(path)
         renamed = english_check(df)
         return renamed

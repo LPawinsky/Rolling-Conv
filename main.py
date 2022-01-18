@@ -1,12 +1,10 @@
-import tkinter as tk
-import threading
-from tkinter import filedialog
+from tkinter import filedialog, Label, Button, Tk
 from tkinter.constants import ACTIVE, CENTER
 from State import State
 from Version import version_window
 import os
 
-state = State(None, None, '0.3')
+state = State(None, None, '0.4')
 
 def version_button_action():
     version_window()
@@ -19,7 +17,6 @@ def path_button_action():
 
 def output_button_action():
     output_path = filedialog.askdirectory()
-    print(output_path)
     state.update_output(str(output_path))
     output_label()
 
@@ -44,55 +41,55 @@ def daily_roll_button_action():
     validate.validation()
 
 def path_label():
-    label = tk.Label(root, text='Obiekt konwersji:')
+    label = Label(root, text='Obiekt konwersji:')
     label.pack()
     label.place(relx=0.2,rely=0.20,anchor=CENTER)
-    label = tk.Label(root, text=os.path.basename(os.path.normpath(state.path)))
+    label = Label(root, text=os.path.basename(os.path.normpath(state.path)))
     label.pack()
     label.place(relx=0.2,rely=0.25,anchor=CENTER)
 
 def output_label():
-    label = tk.Label(root, text="Konwersja do:")
+    label = Label(root, text="Konwersja do:")
     label.pack()
     label.place(relx=0.8,rely=0.20,anchor=CENTER)
-    label = tk.Label(root, text=['/',os.path.basename(os.path.normpath(state.output_path))])
+    label = Label(root, text=['/',os.path.basename(os.path.normpath(state.output_path))])
     label.pack()
     label.place(relx=0.8,rely=0.25,anchor=CENTER)
 
 
-root = tk.Tk()
+root = Tk()
 root.geometry('600x400')
 root.title(f'Konwerter rolowań v{state.version}')
 
-path_button = tk.Button(root, text='Wybierz plik', command=path_button_action)
+path_button = Button(root, text='Wybierz plik', command=path_button_action)
 path_button.pack()
 path_button.place(relx=0.5,rely=0.3,anchor=CENTER)
 
-output_button = tk.Button(root, text='Wybierz ściezkę wyjścia', command=output_button_action)
+output_button = Button(root, text='Wybierz ściezkę wyjścia', command=output_button_action)
 output_button.pack()
 output_button.place(relx=0.5,rely=0.37,anchor=CENTER)
 
 
 
-quarter_roll_button = tk.Button(root, text='Wykres rolowania kwartału', command=quarter_roll_button_action)
+quarter_roll_button = Button(root, text='Wykres rolowania kwartału', command=quarter_roll_button_action)
 quarter_roll_button.pack()
 quarter_roll_button.place(relx=0.5,rely=0.5,anchor=CENTER)
 quarter_roll_button.configure(state=ACTIVE)
-monthly_roll_button = tk.Button(root, text='Wykres rolowania miesiąca', command=monthly_roll_button_action)
+monthly_roll_button = Button(root, text='Wykres rolowania miesiąca', command=monthly_roll_button_action)
 monthly_roll_button.pack()
 monthly_roll_button.place(relx=0.5,rely=0.57,anchor=CENTER)
 monthly_roll_button.configure(state=ACTIVE)
-daily_roll_button = tk.Button(root, text='Wykres rolowania dzienny (OPEN_INT)', command=daily_roll_button_action)
+daily_roll_button = Button(root, text='Wykres rolowania dzienny (OPEN_INT)', command=daily_roll_button_action)
 daily_roll_button.pack()
 daily_roll_button.place(relx=0.5,rely=0.64,anchor=CENTER)
 daily_roll_button.configure(state=ACTIVE)
 
-exit_button = tk.Button(root, height=1, width=20, text='Wyjdź', command=exit_button_action)
+exit_button = Button(root, height=1, width=20, text='Wyjdź', command=exit_button_action)
 exit_button.pack()
 exit_button.place(relx=0.5,rely=0.8,anchor=CENTER)
 exit_button.configure(state=ACTIVE)
 
-version_button = tk.Button(root, text='Wersja', command=version_button_action)
+version_button = Button(root, text='Wersja', command=version_button_action)
 version_button.pack()
 version_button.place(relx=0.9,rely=0.9,anchor=CENTER)
 version_button.configure(state=ACTIVE)
