@@ -7,6 +7,8 @@ def version_window():
     scrollbar.pack(side=RIGHT, fill=Y)
     textbox = Text(root)
     textbox.pack()
+    textbox.insert(END, " * v 0.5\n")
+    textbox.insert(END, "     - optymalizacja OPEN_INT\n\n\n\n")
     textbox.insert(END, " * v 0.4\n")
     textbox.insert(END, "     - integracja kodu źródłowego z konwerterem kontraktów\n")
     textbox.insert(END, "     - usunięte zbędne zapisy terminala\n")

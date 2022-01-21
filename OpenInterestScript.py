@@ -11,12 +11,16 @@ def columns_add(data):
 
 def indices_of_dates(df,third_fridays, case):
     indices = []
-    for idx, date in enumerate(df['Date']):
-        for f in third_fridays:
-            f = f.strftime('%Y-%m-%d')
-            if str(date) == str(f):
-                indices.append(idx)
+    for f in third_fridays:
+        f = f.strftime('%Y-%m-%d')
+    for date in df['Date']:
+        index = df.index
+        if date in third_fridays:
+            condition = df['Date'] == date
+            index_date = index[condition]
+            indices.append(index_date)
     return indices
+
 
 def add_open_int(df, case):
     third_fridays = date_range(df['Date'].iloc[len(df.index)-len(df.index)], df['Date'].iloc[len(df.index)-1], freq='WOM-2THU')
