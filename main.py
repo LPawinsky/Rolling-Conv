@@ -4,7 +4,7 @@ from State import State
 from Version import version_window
 import os
 
-state = State(None, None, '0.5')
+state = State(None, None, '0.6')
 
 def version_button_action():
     version_window()
@@ -35,6 +35,11 @@ def monthly_roll_button_action():
     validate = Validate(state.path, state.output_path, 'M')
     validate.validation()
 
+def weekly_roll_button_action():
+    from Validate import Validate
+    validate = Validate(state.path, state.output_path, 'W')
+    validate.validation()
+
 def daily_roll_button_action():
     from Validate import Validate
     validate = Validate(state.path, state.output_path, 'D')
@@ -47,6 +52,7 @@ def path_label():
     label = Label(root, text=os.path.basename(os.path.normpath(state.path)))
     label.pack()
     label.place(relx=0.2,rely=0.25,anchor=CENTER)
+    path_label_n.config()
 
 def output_label():
     label = Label(root, text="Konwersja do:")
@@ -60,6 +66,10 @@ def output_label():
 root = Tk()
 root.geometry('600x400')
 root.title(f'Konwerter rolowań v{state.version}')
+
+path_label_n = Label(root, text='')
+path_label_n.pack()
+path_label_n.place(relx=0.2,rely=0.25,anchor=CENTER)
 
 path_button = Button(root, text='Wybierz plik', command=path_button_action)
 path_button.pack()
@@ -79,14 +89,21 @@ monthly_roll_button = Button(root, text='Wykres rolowania miesiąca', command=mo
 monthly_roll_button.pack()
 monthly_roll_button.place(relx=0.5,rely=0.57,anchor=CENTER)
 monthly_roll_button.configure(state=ACTIVE)
+
+weekly_roll_button = Button(root, text='Wykres rolowania tygodnia', command=weekly_roll_button_action)
+weekly_roll_button.pack()
+weekly_roll_button.place(relx=0.5,rely=0.64,anchor=CENTER)
+weekly_roll_button.configure(state=ACTIVE)
+
 daily_roll_button = Button(root, text='Wykres rolowania dzienny (OPEN_INT)', command=daily_roll_button_action)
 daily_roll_button.pack()
-daily_roll_button.place(relx=0.5,rely=0.64,anchor=CENTER)
+daily_roll_button.place(relx=0.5,rely=0.71,anchor=CENTER)
 daily_roll_button.configure(state=ACTIVE)
 
-exit_button = Button(root, height=1, width=20, text='Wyjdź', command=exit_button_action)
+
+exit_button = Button(root, height=1, width=10, text='Wyjdź', command=exit_button_action)
 exit_button.pack()
-exit_button.place(relx=0.5,rely=0.8,anchor=CENTER)
+exit_button.place(relx=0.15,rely=0.9,anchor=CENTER)
 exit_button.configure(state=ACTIVE)
 
 version_button = Button(root, text='Wersja', command=version_button_action)

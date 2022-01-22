@@ -3,6 +3,7 @@ from normalization import date_transform, normalize
 from OpenInterestScript import columns_add, english_check, add_open_int
 from ChartScript import english_check_of_month, period_create, saving_months
 from QuarterChartScript import quarter_period_create, english_check_of_quarter, quarter_saving
+from WeeklyChartScript import weekly_periods, weekly_saving
 from saving import txt_convert
 from tkinter import Label, Tk
 from tkinter.ttk import Progressbar
@@ -127,6 +128,39 @@ def extract(path, output, case):
             sleep(0.4)
             extract_window.destroy()
 
+        if qmd == 'w':
+            label.config(text='Normalizuje dane')
+            normalized_data = normalize(path,case)
+            progress['value'] = 20
+            refresh_counter(progress['value'])
+            extract_window.update_idletasks()
+
+            dates = date_transform(normalized_data)
+            progress['value'] = 40
+            refresh_counter(progress['value'])
+            extract_window.update_idletasks()
+
+            label.config(text='Sprawdzam tygodnie')
+            periods = weekly_periods(dates)
+            progress['value'] = 60
+            refresh_counter(progress['value'])
+            extract_window.update_idletasks()
+
+            label.config(text='Zapisuje wykres tygodniowy')
+            data_to_df = weekly_saving(dates, periods)
+            progress['value'] = 80
+            refresh_counter(progress['value'])
+            extract_window.update_idletasks()
+
+            label.config(text='Zapisuje do pliku .txt')
+            txt_convert(data_to_df, path, output, 'D')
+            progress['value'] = 100
+            refresh_counter(progress['value'])
+            extract_window.update_idletasks()
+
+            sleep(0.4)
+            extract_window.destroy()
+
     extract_window.after(10, start)
     extract_window.mainloop()
 
@@ -136,4 +170,6 @@ def extract(path, output, case):
 # # extract('/Users/marianpazdzioch/Downloads/wse stocks/prm.txt', '/Users/marianpazdzioch/Desktop/rolowania', 'mtxt')
 # extract('/Users/marianpazdzioch/Desktop/konwerter_kwartalny/eurpln_d.csv', '/Users/marianpazdzioch/Desktop/konwerter_kwartalny', 'dcsv')
 # # extract('/Users/marianpazdzioch/Desktop/konwerter_kwartalny/eurpln_d.csv', '/Users/marianpazdzioch/Desktop/rolowania', 'mcsv')
+extract('/Users/marianpazdzioch/Downloads/eurpln_d.csv', '/Users/marianpazdzioch/Desktop', 'wcsv')
+
 
