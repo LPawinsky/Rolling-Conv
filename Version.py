@@ -7,6 +7,8 @@ def version_window():
     scrollbar.pack(side=RIGHT, fill=Y)
     textbox = Text(root)
     textbox.pack()
+    textbox.insert(END, " * v 0.6.1\n")
+    textbox.insert(END, "     - poprawka błędu OPENINT z brakiem wskazań\n\n\n\n")
     textbox.insert(END, " * v 0.6\n")
     textbox.insert(END, "     - zmiana OPEN_INT (konwersja dzienna) z 3-1 na 5-2\n")
     textbox.insert(END, "     - dodana konwersja tygodniowa\n")
