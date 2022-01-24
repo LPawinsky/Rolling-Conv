@@ -170,6 +170,6 @@ def extract(path, output, case):
 # # extract('/Users/marianpazdzioch/Downloads/wse stocks/prm.txt', '/Users/marianpazdzioch/Desktop/rolowania', 'mtxt')
 # extract('/Users/marianpazdzioch/Desktop/konwerter_kwartalny/eurpln_d.csv', '/Users/marianpazdzioch/Desktop/konwerter_kwartalny', 'dcsv')
 # # extract('/Users/marianpazdzioch/Desktop/konwerter_kwartalny/eurpln_d.csv', '/Users/marianpazdzioch/Desktop/rolowania', 'mcsv')
-extract('/Users/marianpazdzioch/Downloads/eurpln_d.csv', '/Users/marianpazdzioch/Desktop', 'wcsv')
+# extract('/Users/marianpazdzioch/Downloads/eurpln_d.csv', '/Users/marianpazdzioch/Desktop', 'wcsv')
 
 
